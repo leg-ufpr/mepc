@@ -117,6 +117,13 @@ temp_k <- temp_c + 273.15
 ## NOTE sobre "sobreposição" de resultados no mesmo objeto (apesar do
 ## resultado ser o mesmo, temp_c é sobrescrito)
 
+## NOTE por que 9/5 e não 1.8?
+## Representação numérica em computadores: aritmética de ponto flutuante
+9/5
+print(9/5, digits = 22)
+1.8
+print(1.8, digits = 22)
+
 ## Encontre as raízes da equação x^2 - 5x + 6
 ## Veja https://pt.wikipedia.org/wiki/Equação_quadrática
 a <- 1; b <- -5; c <- 6
@@ -158,6 +165,14 @@ rootSolve::uniroot.all(function(x) x^2 - 5 * x + 6, interval = c(0, 5))
 
 ##======================================================================
 ## Vetores
+
+## Vetores atômicos: existem seis tipos básicos:
+## double
+## integer
+## character
+## logical
+## complex
+## raw
 
 ## Vetor simples
 vet <- c(5, 3, 2)
@@ -230,6 +245,7 @@ args(runif)
 ## NOTE páginas de ajuda
 help(runif)
 
+## Ordem dos argumentos
 runif(10)
 runif(10, min = 0, max = 5)
 runif(10, max = 5, min = 0)
@@ -250,6 +266,10 @@ soma <- function(x, y) {
     x + y
 }
 soma(2, 2)
+
+## Tudo no R é uma função (tudo mesmo)
+"+"(3, 2)
+"/"(3, 2)
 
 ## Convertendo as escalas de temperatura
 celsius2kelvin <- function(celsius) {
