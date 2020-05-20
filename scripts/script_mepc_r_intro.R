@@ -1,4 +1,5 @@
 #########################################################################
+##
 ## Disciplina Transversal
 ## MEPC-2020
 ## Aula 1   20/05/2020
@@ -65,6 +66,8 @@ z * y
 ## Calcule 2 vezes y, salvando o resultado em uma nova variável chamada
 ## 'w'
 w <- 2 * y
+2 * y -> w
+w
 
 ## Calcule x vezes w
 x * w
@@ -104,15 +107,29 @@ temp_k <- temp_c + 273.15
 (temp_c <- temp_f - 32 * 5/9)
 ## NOTE sobre ordem de operações
 (temp_c <- (temp_f - 32) * 5/9)
+## Abrindo a conta
+77 - 32 * 5/9 # errado
+32 * 5/9 # esse é o primeiro passo
+77 - 17.77778 # o resultado do primeiro passo é usado aqui, causando o
+              # erro
+(77 - 32) * 5/9 # certo - parenteses primeiro
+
 ## NOTE sobre "sobreposição" de resultados no mesmo objeto (apesar do
 ## resultado ser o mesmo, temp_c é sobrescrito)
 
 ## Encontre as raízes da equação x^2 - 5x + 6
+## Veja https://pt.wikipedia.org/wiki/Equação_quadrática
 a <- 1; b <- -5; c <- 6
+## Fórmula de Bhaskara
 (-b - sqrt(b^2 - 4 * a * c))/(2 * a)
 (-b + sqrt(b^2 - 4 * a * c))/(2 * a)
+## Visualização
 curve(x^2 - 5 * x + 6, from = 0, to = 5)
 abline(h = 0, lty = 2)
+segments(x0 = 2, y0 = -1, x1 = 2, y1 = 0, col = 2)
+segments(x0 = 3, y0 = -1, x1 = 3, y1 = 0, col = 2)
+points(2, 0, pch = 19, col = 2)
+points(3, 0, pch = 19, col = 2)
 
 ## Usando uniroot
 uniroot(function(x) x^2 - 5 * x + 6, interval = c(0, 5))
@@ -123,6 +140,21 @@ rootSolve::uniroot.all(function(x) x^2 - 5 * x + 6, interval = c(0, 5))
 ##----------------------------------------------------------------------
 ## FIM Script pré aula
 ##======================================================================
+
+##======================================================================
+## Links para materiais
+
+## Página oficial do projeto R
+## https://www.r-project.org/
+
+## Introdução ao Ambiente Estatístico R (Rembrapa)
+## Paulo Justiniano Ribeiro Jr
+## http://www.leg.ufpr.br/~paulojus/embrapa/Rembrapa/
+
+## Estatística Computacional com R
+## Fernando Mayer, Wagner Bonat, Walmes Zeviani,
+## Elias Krainski, Paulo J. Ribeiro Jr.
+## http://cursos.leg.ufpr.br/ecr/
 
 ##======================================================================
 ## Vetores
