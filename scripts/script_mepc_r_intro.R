@@ -564,7 +564,7 @@ par(mfrow = c(1, 1))
 
 ##----------------------------------------------------------------------
 ## Ver tabela em
-## http://cursos.leg.ufpr.br/ecr/entrada-e-sa%C3%ADda-de-dados-no-r.html#exerc%C3%ADcios-11
+## http://cursos.leg.ufpr.br/ecr/entrada-e-saída-de-dados-no-r.html#exercícios-11
 
 ## Montando a tabela "na mão"
 Condicao <- rep(c("Fumante", "Nao fumante"), each = 5, times = 2)
@@ -584,8 +584,12 @@ xtabs(Numero ~ Sexo, data = dc)
 tab <- xtabs(Numero ~ Condicao + Sexo, data = dc)
 tab
 addmargins(tab)
+## Proporção em relação ao total geral
 prop.table(tab)
 addmargins(prop.table(tab))
+round(addmargins(prop.table(tab)), 2)
+addmargins(prop.table(tab)) * 100
+round(addmargins(prop.table(tab)) * 100, 1)
 
 ## Visualizações básicas
 barplot(tab)
