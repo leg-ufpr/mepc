@@ -409,8 +409,8 @@ da[3, "Escala"]
 ## https://pt.wikipedia.org/wiki/Curitiba#Clima
 
 ## Temperatura média mensal --------------------------------------------
-temp <- c(20.9, 21,	20.1,	18.3,	15.1,	13.9,	13.5,	14.6,	15.3,
-          17.1,	18.9,	20.2)
+temp <- c(20.9, 21, 20.1, 18.3, 15.1, 13.9, 13.5, 14.6, 15.3,
+          17.1, 18.9, 20.2)
 summary(temp)
 mean(temp)
 median(temp)
@@ -423,6 +423,13 @@ plot(temp, type = "l", xlab = "Mês", ylab = "Temperatura")
 plot(temp, type = "l", xlab = "Mês", ylab = "Temperatura",
      ylim = c(5, 25))
 
+## Para aparecer o mês 1
+plot(temp, type = "l", xlab = "Mês", ylab = "Temperatura",
+     ylim = c(5, 25), axes = FALSE)
+axis(2)
+axis(1, at = 1:12, labels = 1:12)
+box()
+
 ## Incluindo os meses identificados pelo nome
 meses <- c("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul",
            "Ago", "Set", "Out", "Nov", "Dez")
@@ -433,13 +440,15 @@ axis(1, at = 1:12, labels = meses)
 box()
 
 ## Completo
-plot(temp, type = "l", xlab = "Mês", ylab = "Temperatura",
+plot(temp, type = "l", xlab = "Mês",
+     ylab = expression(paste("Temperatura (", degree, "C)")),
      ylim = c(5, 25), axes = FALSE,
      main = "Temperatura média na cidade de Curitiba",
      sub = "Fonte: https://pt.wikipedia.org/wiki/Curitiba#Clima")
 axis(2)
 axis(1, at = 1:12, labels = meses)
 box()
+## Para símbolos, veja ?plotmath
 
 ## Distribuição das temperaturas
 hist(temp)
@@ -465,7 +474,7 @@ plot(prec, type = "l", xlab = "Mês", ylab = "Precipitação",
 ## Pode fazer a mesma coisa incluindo os meses abreviados
 
 ## Completo
-plot(prec, type = "o", xlab = "Mês", ylab = "Precipitação",
+plot(prec, type = "o", xlab = "Mês", ylab = "Precipitação (mm)",
      ylim = c(50, 230), axes = FALSE,
      pch = 19, col = "blue",
      main = "Precipitação média na cidade de Curitiba",
@@ -477,14 +486,15 @@ box()
 ## Distribuição das precipitações
 hist(prec)
 hist(prec, freq = FALSE) # não é proporção, e sim densidade
-hist(prec, xlab = "Precipitação", ylab = "Frequência",
+hist(prec, xlab = "Precipitação (mm)", ylab = "Frequência",
      main = "Precipitação média na cidade de Curitiba")
 box()
 
 ## Relação entre temperatura e precipitação ----------------------------
 
-## Cria um data frame para as duas variáveis
-clima <- data.frame(temp, prec)
+## Cria um data frame para as duas variáveis, incluindo os meses para
+## referência
+clima <- data.frame(meses, temp, prec)
 summary(clima)
 dim(clima)
 clima
@@ -510,8 +520,10 @@ plot(sol, type = "o", xlab = "Mês", ylab = "Horas de sol",
 ## Tudo feito anteriormente pode ser aplicado aqui também
 
 ## Qual o percentual de sol em cada mês???
-## Fazendo uma conta rápida: 30 dias * 24 horas = 720 horas
-(horas_mes <- 30 * 24)
+## Fazendo uma conta rápida: considere que um mês contém em média 30
+## dias, e que cada dia possui, em média, 10 horas de duração, então:
+## 30 dias * 10 horas = 300 horas
+(horas_mes <- 30 * 10)
 ## Percentual de sol
 sol_perc <- sol/horas_mes
 summary(sol_perc)
@@ -521,7 +533,7 @@ abline(h = 0.5, lty = 2, col = 2)
 
 ## Distribuição do percentual de sol
 hist(sol_perc)
-hist(sol_perc * 100, main = "", xlab = "Percentual de sol",
+hist(sol_perc * 100, main = "", xlab = "Percentual de sol (%)",
      ylab = "Frequência")
 
 ## Relação entre as três variáveis -------------------------------------
