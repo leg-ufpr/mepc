@@ -654,3 +654,39 @@ par(mfrow = c(1, 1))
 ## Boxplots
 boxplot(Petal.Length ~ Species, data = iris)
 boxplot(Petal.Width ~ Species, data = iris)
+
+##----------------------------------------------------------------------
+## Comparando pacotes gráficos
+
+## Usando plot padrão com subset
+par(mfrow = c(1, 3))
+plot(Petal.Width ~ Petal.Length, data = iris,
+     subset = Species == "setosa",
+     xlab = "Comprimento da pétala",
+     ylab = "Largura da pétala",
+     main = "Setosa",
+     xlim = c(1, 7), ylim = c(0, 2.5))
+plot(Petal.Width ~ Petal.Length, data = iris,
+     subset = Species == "versicolor",
+     xlab = "Comprimento da pétala",
+     ylab = "Largura da pétala",
+     main = "Versicolor",
+     xlim = c(1, 7), ylim = c(0, 2.5))
+plot(Petal.Width ~ Petal.Length, data = iris,
+     subset = Species == "virginica",
+     xlab = "Comprimento da pétala",
+     ylab = "Largura da pétala",
+     main = "Virginica",
+     xlim = c(1, 7), ylim = c(0, 2.5))
+par(mfrow = c(1, 1))
+
+## Usando lattice
+library(lattice)
+xyplot(Petal.Width ~ Petal.Length | Species, data = iris,
+       layout = c(3, 1))
+
+## Usando ggplot2
+library(ggplot2)
+ggplot(iris, aes(Petal.Length, Petal.Width)) +
+    geom_point() +
+    facet_wrap(~ Species)
