@@ -532,11 +532,13 @@ par(mfrow = c(1, 1))
 ##----------------------------------------------------------------------
 ## Funções
 ## Outros tipos de vetores (incluindo indexação)
+## VER próxima sessão
 ##----------------------------------------------------------------------
 
 ##======================================================================
 ## Importando dados de planilhas
 
+##----------------------------------------------------------------------
 ## Importar os dados do Gapminder em
 ## http://www.leg.ufpr.br/~fernandomayer/data
 ## Importando pela url
@@ -546,8 +548,454 @@ dados <- read.table(url, header = TRUE,
                     stringsAsFactors = FALSE)
 str(dados)
 
-## Impostando do arquivo local
+## Importando do arquivo local
 dados <- read.table("pib_gapminder.csv", header = TRUE,
                     sep = ",", dec = ".",
                     stringsAsFactors = FALSE)
 str(dados)
+
+##----------------------------------------------------------------------
+## Explorando (conhecendo) a base de dados
+
+## Quais sao os paises?
+unique(dados$pais)
+length(unique(dados$pais))
+
+## Quantos anos existem? Quais?
+unique(dados$ano)
+length(unique(dados$ano))
+table(dados$ano)
+
+## São 142 países observados em 12 anos
+142 * 12
+nrow(dados)
+
+## Qualitativas --------------------------------------------------------
+
+## Quais são os continentes?
+unique(dados$continente)
+table(dados$continente)
+prop.table(table(dados$continente))
+addmargins(table(dados$continente))
+addmargins(prop.table(table(dados$continente)))
+
+## Graficos para variaveis qualitativas
+barplot(table(dados$continente))
+barplot(table(dados$continente),
+        xlab = "Continentes",
+        ylab = "Frequência",
+        main = "Ocorrência dos continentes")
+barplot(sort(table(dados$continente)))
+barplot(sort(table(dados$continente), decreasing = TRUE))
+## BAD
+pie(table(dados$continente))
+
+## Tabelas de dupla entrada
+table(dados$ano, dados$continente)
+addmargins(table(dados$ano, dados$continente))
+
+## Quantitativas -------------------------------------------------------
+
+## Resumos de expVida
+summary(dados)
+quantile(dados$expVida)
+fivenum(dados$expVida)
+mean(dados$expVida)
+sd(dados$expVida)
+sd(dados$expVida)/mean(dados$expVida)
+## NOTE pode falar de função aqui
+cv <- function(x){
+    sd(x)/mean(x)
+}
+cv(dados$expVida)
+
+## Construindo tabelas de frequencia para var. quantitativas
+sqrt(length(dados$expVida))
+nclass.Sturges(dados$expVida)
+nclass.FD(dados$expVida)
+range(dados$expVida)
+seq(20, 90, by = 10)
+length(seq(20, 90, by = 10))
+classes <- cut(dados$expVida, breaks = seq(20, 90, by = 10))
+classes
+table(classes)
+addmargins(table(classes))
+
+## Frequencia relativa
+prop.table(table(classes))
+addmargins(prop.table(table(classes)))
+cbind("f" = addmargins(table(classes)),
+      "fr" = addmargins(prop.table(table(classes))))
+
+## Histograma
+hist(dados$expVida)
+hist(dados$expVida, breaks = seq(20, 90, by = 10))
+hist(dados$expVida, nclass = 8)
+
+## Boxplot
+boxplot(dados$expVida)
+
+## Boxplot por continente
+boxplot(expVida ~ continente, data = dados)
+
+## Boxplot por país
+boxplot(expVida ~ pais, data = dados)
+## Usando subset na função
+boxplot(expVida ~ pais, data = dados,
+        subset = continente == "Americas")
+boxplot(expVida ~ pais, data = dados,
+        subset = continente == "Americas",
+        cex.axis = 0.5, las = 3, xlab = "")
+## Para alguns países
+boxplot(
+    expVida ~ pais, data = dados,
+    subset = pais %in% c("Argentina", "Brazil", "Paraguay", "Uruguay")
+)
+
+## Descobrindo a grafia dos nomes
+grep("Bra", dados$pais)
+grep("Bra", dados$pais, value = TRUE)
+grep("Par", dados$pais)
+grep("Par", dados$pais, value = TRUE)
+
+## Para facilitar, faz um subset nos dados -----------------------------
+## dados_am <- subset(dados, continente == "Americas")
+## str(dados_am)
+
+## Subset mais "restrito"
+## paises <- c("Argentina", "Brazil", "Chile", "Peru",
+##             "Colombia", "Ecuador", "Paraguay", "Uruguay",
+##             "Venezuela") ## "Bolivia", "Peru"
+paises <- c("Argentina", "Brazil", "Paraguay", "Uruguay")
+dados_am <- subset(dados, pais %in% paises)
+str(dados_am)
+
+## Os mesmos gráficos podem ser feitos, mas agora sem a necessidade do
+## subset em todas as funções
+boxplot(expVida ~ pais, data = dados,
+        subset = continente == "Americas")
+boxplot(expVida ~ pais, data = dados,
+        subset = pais %in% paises)
+boxplot(expVida ~ pais, data = dados_am)
+boxplot(expVida ~ pais, data = dados_am, las = 3, xlab = "")
+
+## E para fazer um histograma por país?
+hist(dados_am$expVida)
+hist(expVida ~ pais, data = dados_am) # FAIL
+
+## O modo trabalhoso
+par(mfrow = c(2, 2))
+hist(dados_am$expVida[dados_am$pais == "Argentina"], main = "Argentina",
+     xlab = "Expectativa de vida", ylab = "Frequência")
+hist(dados_am$expVida[dados_am$pais == "Brazil"], main = "Brazil",
+     xlab = "Expectativa de vida", ylab = "Frequência")
+hist(dados_am$expVida[dados_am$pais == "Paraguay"], main = "Paraguay",
+     xlab = "Expectativa de vida", ylab = "Frequência")
+hist(dados_am$expVida[dados_am$pais == "Uruguay"], main = "Uruguay",
+     xlab = "Expectativa de vida", ylab = "Frequência")
+par(mfrow = c(1, 1))
+## Problemas de escala, etc
+
+## Necessário usar outro sistema gráfico
+library(lattice) ## ----------------------------------------------------
+histogram(~ expVida, data = dados_am)
+histogram(~ expVida | pais, data = dados_am, as.table = TRUE)
+library(ggplot2) ## ----------------------------------------------------
+ggplot(dados_am, aes(expVida)) +
+    geom_histogram(bins = 10)
+ggplot(dados_am, aes(expVida)) +
+    geom_histogram(bins = 10) +
+    facet_wrap(~ pais)
+
+## Gráficos de séries temporais ----------------------------------------
+plot(expVida ~ ano, data = dados_am)
+xyplot(expVida ~ ano | pais, data = dados_am, type = "l",
+       as.table = TRUE)
+xyplot(expVida ~ ano | pais, data = dados_am, type = "l",
+       as.table = TRUE,
+       scales = list(x = list(rot = 90)))
+## ggplot2
+ggplot(dados_am, aes(ano, expVida)) +
+    geom_line() +
+    facet_wrap(~ pais) +
+    theme(axis.text.x = element_text(angle = 90))
+
+##----------------------------------------------------------------------
+## Gráficos de dispersão
+plot(expVida ~ pibPercap, data = dados_am)
+plot(expVida ~ pibPercap, data = dados_am, subset = pais == "Brazil")
+xyplot(expVida ~ pibPercap, data = dados_am)
+## A escala atrapalha a interpretação
+xyplot(expVida ~ pibPercap | pais, data = dados_am,
+       as.table = TRUE)
+## Mantém expVida fixo, varia pibPercap
+xyplot(expVida ~ pibPercap | pais, data = dados_am,
+       as.table = TRUE, scales = list(x = list(relation = "free")))
+## Varia nos dois sentidos
+xyplot(expVida ~ pibPercap | pais, data = dados_am,
+       as.table = TRUE, scales = list(relation = "free"))
+## ggplot2
+ggplot(dados_am, aes(pibPercap, expVida)) +
+    geom_point() +
+    facet_wrap(~ pais)
+ggplot(dados_am, aes(pibPercap, expVida)) +
+    geom_point() +
+    facet_wrap(~ pais, scales = "free_x")
+ggplot(dados_am, aes(pibPercap, expVida)) +
+    geom_point() +
+    facet_wrap(~ pais, scales = "free")
+
+##----------------------------------------------------------------------
+## Tabelas resumo
+str(dados_am)
+names(dados_am)
+
+## Usando apply
+apply(dados_am[, 5:6], 2, mean)
+apply(dados_am[, 5:6], 2, summary)
+
+## Usando s/lapply
+sapply(dados_am[, 5:6], mean)
+lapply(dados_am[, 5:6], mean)
+sapply(dados_am[, 5:6], summary)
+lapply(dados_am[, 5:6], summary)
+
+## Usando tapply (categorias)
+with(dados_am, tapply(expVida, pais, mean))
+with(dados_am, tapply(expVida, ano, mean))
+
+## Com duas variaveis separadoras
+with(dados_am, tapply(expVida, list(pais, ano), mean))
+with(dados_am, tapply(expVida, list(ano, pais), mean))
+
+## Com duas variaveis resposta ...
+with(dados_am, tapply(data.frame(expVida, pibPercap), pais, mean))
+## ... tem que usar o aggregate
+aggregate(expVida ~ pais, data = dados_am, mean)
+## Com mais de uma variavel
+aggregate(cbind(expVida, pibPercap) ~ pais, data = dados_am, mean)
+## Com mais de um divisor
+aggregate(expVida ~ pais + ano, data = dados_am, mean)
+## Com duas variaveis e dois divisores
+aggregate(cbind(expVida, pibPercap) ~ pais + ano, data = dados_am, mean)
+
+## E para fazer com mais de uma função?
+## Ver a função ddply do pacote plyr
+library(plyr)
+## Usando um divisor
+ddply(dados_am, .(pais), summarize,
+      media = mean(expVida))
+ddply(dados_am, .(pais), summarize,
+      media = mean(expVida),
+      var = var(expVida))
+ddply(dados_am, .(pais), summarize,
+      media = mean(expVida),
+      var = var(expVida),
+      mediana = median(expVida))
+## Usando dois divisores
+ddply(dados_am, .(pais, ano), summarize,
+      media = mean(expVida))
+
+## FIM Importando dados de planilhas
+##======================================================================
+
+##======================================================================
+## Funções e argumentos
+runif(n = 10, min = 0, max = 1)
+args(runif)
+## NOTE páginas de ajuda
+help(runif)
+
+## Ordem dos argumentos
+runif(10)
+runif(10, min = 0, max = 5)
+runif(10, max = 5, min = 0)
+runif(max = 5, n = 10, min = 0)
+runif(max = 5, 10, min = 0)
+runif(10, max = 5, 0)
+runif(10, 0, 5)
+runif(10, 5, 0) # errado
+
+## Outros tipos de argumento
+args(sample)
+help(sample)
+sample(x = 1:10, size = 5)
+sample(x = 1:10, size = 5, replace = TRUE)
+
+## Criando suas próprias funções
+soma <- function(x, y) {
+    x + y
+}
+soma(2, 2)
+
+## Tudo no R é uma função (tudo mesmo)
+"+"(3, 2)
+"/"(3, 2)
+
+## Convertendo as escalas de temperatura
+celsius2kelvin <- function(celsius) {
+    celsius + 273.15
+}
+celsius2kelvin(25)
+celsius2kelvin(celsius = 30)
+celsius2kelvin(celsius = 32.9)
+
+celsius2fahr <- function(celsius) {
+    (celsius * 9/5) + 32
+}
+celsius2fahr(25)
+celsius2fahr(celsius = 25)
+celsius2fahr(celsius = 32.9)
+
+## Convertendo todas na mesma função
+celsius2others <- function(celsius) {
+    temp_k <- celsius + 273.15
+    temp_f <- (celsius * 9/5) + 32
+    res <- c(celsius, temp_k, temp_f)
+    names(res) <- c("Celsius", "Kelvin", "Fahrenheit")
+    return(res)
+}
+celsius2others(25)
+celsius2others(32.9)
+celsius2others(0)
+celsius2others(100)
+
+## Variação com mensagem
+## celsius2others <- function(celsius) {
+##     temp_k <- celsius + 273.15
+##     temp_f <- (celsius * 9/5) + 32
+##     res <- c(temp_k, temp_f)
+##     names(res) <- c("Kelvin", "Fahrenheit")
+##     message("Temperatura de entrada: ", celsius)
+##     return(res)
+## }
+## celsius2others(25)
+
+##======================================================================
+## Outros tipos de vetores
+
+## Vetores de caracteres
+escala <- c("Celsius", "Kelvin", "Fahrenheit")
+escala
+
+## Fatores
+escala_fator <- as.factor(escala)
+escala_fator
+## Níveis são sempre únicos
+escala_fator2 <- as.factor(c(escala, escala))
+escala_fator2
+
+## Matrizes (vetor com duas dimensões)
+mat <- matrix(1:12, nrow = 3, ncol = 4)
+mat
+
+mat <- matrix(1:12, nrow = 3, ncol = 4, byrow = TRUE)
+mat
+length(mat)
+dim(mat)
+
+## Indexação de matrizes
+mat[1, 1]
+mat[1, 2]
+mat[2, 1]
+mat[,]
+mat[1, ]
+mat[, 1]
+mat[, 1, drop = FALSE]
+mat[c(1, 3), c(4, 1)]
+
+##----------------------------------------------------------------------
+## Listas
+lis <- list(1:5, "R", mat)
+lis
+length(lis)
+dim(lis)
+names(lis)
+
+## Indexação de listas
+lis[[1]]
+lis[[1]][1]
+lis[[1]][c(2, 5)]
+lis[[2]]
+lis[[3]]
+lis[[3]][1, 2]
+
+## Usando nomes
+names(lis)
+names(lis) <- c("vetor", "palavra", "matriz")
+names(lis)
+lis
+## Usando $
+lis$vetor
+lis$vetor[1]
+lis$vetor[c(2, 5)]
+lis$palavra
+lis$matriz
+lis$matriz[1, 2]
+
+##----------------------------------------------------------------------
+## Data frame
+## - É uma lista onde os componentes devem ter o mesmo tamanho
+## - Formato de "tabela" de dados
+da <- data.frame("Escala" = c("Celsius", "Kelvin", "Fahrenheit"),
+                 "Temperatura" = c(temp_c, temp_k, temp_f))
+da
+length(da) # número de colunas = elementos da lista
+dim(da) # também possui duas dimensões
+names(da)
+row.names(da)
+
+## Indexação de data frames
+
+## Como lista - por coluna
+da$Escala # acessa coluna
+da$Escala[1]
+da$Temperatura
+
+## Como matriz - linha e coluna
+da[1, 1]
+da[2, 2]
+da[2, ]
+da[, 2]
+da[1, "Temperatura"]
+da[, "Temperatura"]
+da[3, "Escala"]
+
+##======================================================================
+## Entrada de dados manual 2
+
+## Ver tabela em
+## http://cursos.leg.ufpr.br/ecr/entrada-e-saída-de-dados-no-r.html#exercícios-11
+
+## Montando a tabela "na mão"
+Condicao <- rep(c("Fumante", "Nao fumante"), each = 5, times = 2)
+Sexo <- rep(c("Masculino", "Feminino"), each = 10)
+Numero <- c(49, 64, 37, 52, 68, 27, 58, 52, 41, 30,
+            54, 61, 79, 64, 29, 40, 39, 44, 34, 44)
+dc <- data.frame(Condicao, Sexo, Numero)
+str(dc)
+dc
+
+## Contagem
+table(dc$Condicao, dc$Sexo)
+
+## Total de casos por categoria
+xtabs(Numero ~ Condicao, data = dc)
+xtabs(Numero ~ Sexo, data = dc)
+tab <- xtabs(Numero ~ Condicao + Sexo, data = dc)
+tab
+addmargins(tab)
+## Proporção em relação ao total geral
+prop.table(tab)
+addmargins(prop.table(tab))
+round(addmargins(prop.table(tab)), 2)
+addmargins(prop.table(tab)) * 100
+round(addmargins(prop.table(tab)) * 100, 1)
+
+## Visualizações básicas
+barplot(tab)
+barplot(tab, legend = TRUE)
+barplot(tab, beside = TRUE)
+barplot(tab, beside = TRUE, legend = TRUE)
+## Mosaico
+mosaicplot(tab)
