@@ -500,6 +500,9 @@ clima$sol <- sol
 summary(clima)
 clima
 
+## NOTE que da para fazer isso
+plot(clima)
+
 ## Temperatura e precipitação
 plot(prec ~ temp, data = clima, pch = 19)
 
@@ -533,3 +536,18 @@ par(mfrow = c(1, 1))
 
 ##======================================================================
 ## Importando dados de planilhas
+
+## Importar os dados do Gapminder em
+## http://www.leg.ufpr.br/~fernandomayer/data
+## Importando pela url
+url <- "http://www.leg.ufpr.br/~fernandomayer/data/pib_gapminder.csv"
+dados <- read.table(url, header = TRUE,
+                    sep = ",", dec = ".",
+                    stringsAsFactors = FALSE)
+str(dados)
+
+## Impostando do arquivo local
+dados <- read.table("pib_gapminder.csv", header = TRUE,
+                    sep = ",", dec = ".",
+                    stringsAsFactors = FALSE)
+str(dados)
