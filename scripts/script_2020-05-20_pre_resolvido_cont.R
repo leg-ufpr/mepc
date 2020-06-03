@@ -226,6 +226,13 @@ typeof(as.integer(9))
 ##======================================================================
 ## Entrada de dados manual
 
+temp <- c(20.9, 21, 20.1, 18.3, 15.1, 13.9, 13.5, 14.6, 15.3,
+          17.1, 18.9, 20.2)
+prec <- c(218.3, 166.2, 147, 95.7, 113.5, 94.1, 108.3, 74, 141.4,
+          138.7, 124.4, 154.2)
+sol <- c(160.5, 151.3, 163.1, 155.5, 148.8, 141.3, 162.1,
+         173, 124.3, 136.7, 163.5, 164.7)
+
 ##----------------------------------------------------------------------
 ## Dados de horas de sol, precipitação e temperatura, por mês, na cidade
 ## de Curitiba. Ver tabela em:
@@ -408,11 +415,13 @@ plot(temp, prec)
 
 ## Cria um data frame para as duas variáveis, incluindo os meses para
 ## referência
-clima <- data.frame(meses, temp, prec, row.names = NULL)
+clima <- data.frame(meses, temp, prec, row.names = NULL,
+                    stringsAsFactors = TRUE)
 clima
 str(clima)
 summary(clima)
 dim(clima)
+length(clima)
 
 ## Relação entre as duas variáveis (assumindo que a precipitação depende
 ## da temperatura)
@@ -482,7 +491,6 @@ hist(sol_perc)
 hist(sol_perc * 100, main = "", xlab = "Percentual de sol (%)",
      ylab = "Frequência")
 
-
 ## Relação entre as três variáveis -------------------------------------
 
 ## Inclui horas de sol no mesmo data frame
@@ -514,7 +522,14 @@ par(mfrow = c(1, 1))
 ## str(clima_long)
 ## histogram(~values | ind, data = clima_long, layout = c(3, 1))
 
+
+## FIM Entrada de dados manual
+##======================================================================
+
 ##----------------------------------------------------------------------
 ## Funções
 ## Outros tipos de vetores (incluindo indexação)
 ##----------------------------------------------------------------------
+
+##======================================================================
+## Importando dados de planilhas
