@@ -324,6 +324,7 @@ box()
 ## Distribuição das temperaturas
 hist(temp)
 hist(temp, freq = FALSE) # não é proporção, e sim densidade
+lines(density(temp))
 hist(temp, xlab = "Temperatura", ylab = "Frequência",
      main = "Temperatura média na cidade de Curitiba")
 
@@ -336,12 +337,17 @@ fivenum(temp)
 boxplot.stats(temp)$stats
 boxplot(temp)
 boxplot(temp, horizontal = TRUE)
+points(mean(temp), 1, pch = 19, col = 2)
+boxplot(temp, notch = TRUE, varwidth = TRUE)
 
 ## Comparando histograma com boxplot
 par(mfrow = c(2, 1))
 hist(temp)
 boxplot(temp, horizontal = TRUE, ylim = c(12, 22))
+points(mean(temp), 1, pch = 19, col = 2)
 par(mfrow = c(1, 1))
+
+summary(temp)
 
 ## Precipitação média mensal -------------------------------------------
 prec <- c(218.3, 166.2, 147, 95.7, 113.5, 94.1, 108.3, 74, 141.4,
@@ -416,7 +422,7 @@ plot(temp, prec)
 ## Cria um data frame para as duas variáveis, incluindo os meses para
 ## referência
 clima <- data.frame(meses, temp, prec, row.names = NULL,
-                    stringsAsFactors = TRUE)
+                    stringsAsFactors = FALSE)
 clima
 str(clima)
 summary(clima)
@@ -431,6 +437,10 @@ plot(prec ~ temp, data = clima)
 plot(prec ~ temp, data = clima, pch = 19)
 plot(prec ~ temp, data = clima, pch = 19,
      xlab = "Temperatura", ylab = "Precipitação")
+
+## BOXCOX --------------------------------------------------------------
+hist(clima$prec)
+boxcox(prec ~ temp, data = clima)
 
 ## Horas de sol por mês ------------------------------------------------
 sol <- c(160.5, 151.3, 163.1, 155.5, 148.8, 141.3, 162.1,
@@ -538,6 +548,8 @@ par(mfrow = c(1, 1))
 ##======================================================================
 ## Importando dados de planilhas
 
+## ABRIR O ARQUIVO NO EXCEL
+
 ##----------------------------------------------------------------------
 ## Importar os dados do Gapminder em
 ## http://www.leg.ufpr.br/~fernandomayer/data
@@ -637,6 +649,8 @@ boxplot(dados$expVida)
 
 ## Boxplot por continente
 boxplot(expVida ~ continente, data = dados)
+boxplot(expVida ~ continente, data = dados,
+        notch = TRUE, varwidth = TRUE)
 
 ## Boxplot por país
 boxplot(expVida ~ pais, data = dados)
@@ -715,6 +729,9 @@ xyplot(expVida ~ ano | pais, data = dados_am, type = "l",
        as.table = TRUE,
        scales = list(x = list(rot = 90)))
 ## ggplot2
+ggplot(dados_am, aes(ano, expVida)) +
+    geom_line() +
+    facet_wrap(~ pais)
 ggplot(dados_am, aes(ano, expVida)) +
     geom_line() +
     facet_wrap(~ pais) +
