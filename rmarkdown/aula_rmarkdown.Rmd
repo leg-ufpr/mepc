@@ -13,8 +13,11 @@ papersize: a4
 
 # Introdução
 
-O LaTeX é um conjunto de **macros** para o processador de textos TeX, utilizado amplamente para a produção de **textos matemáticos** e *científicos* devido à sua alta qualidade tipográfica. Entretanto, também é utilizado para produção
-de cartas pessoais, artigos e livros sobre assuntos diversos.
+O LaTeX é um conjunto de **macros** para o processador de textos TeX,
+utilizado amplamente para a produção de **textos matemáticos** e
+*científicos* devido à sua alta qualidade tipográfica. Entretanto,
+também é utilizado para produção de cartas pessoais, artigos e livros
+sobre assuntos diversos.
 
 Nova parágrafo.
 
@@ -99,4 +102,3 @@ f(x) = \frac{1}{\sigma \sqrt{2\pi}} \exp{ \left[ -\frac{1}{2}
 Segundo @Buckland2004 dsdsds. E outra coisa [@Durbin1997].
 
 # Referências
-
