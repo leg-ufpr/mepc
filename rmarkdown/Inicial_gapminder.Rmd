@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Importação e estrutura dos dados
 
-Vamos importar os dados com 
+Vamos importar os dados com
 
 ```{r, echo=TRUE}
 dados <- read.csv("pib_gapminder.csv")
@@ -30,7 +30,8 @@ Um sumário estatístico pode ser visto abaixo
 knitr::kable(summary(dados))
 ```
 
-Segundo @Mood1974 isso é muito bom. Mas existem outras opiniões [@Casella-Berger2011].
+Segundo @Mood1974 isso é muito bom. Mas existem outras opiniões
+[@Casella-Berger2011].
 
 # Indicadores para o Brasil
 
@@ -56,10 +57,3 @@ Com isso, vemos que a expectativa de vida média do Brasil, nesse período,
 foi de $\bar{x}=$ `r mean(dados$expVida[dados$pais == "Brazil"])` anos.
 
 # Referências
-
-
-
-
-
-
-
