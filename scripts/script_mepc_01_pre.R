@@ -47,82 +47,40 @@ ls()
 
 ## Cria três variáveis: 'x', 'y' e 'z', com os respectivos valores: 5,
 ## 3, e 2.
-x = 5
-y = 3
-z = 2
-## NOTE que = deveria ser <-
-x <- 5
-y <- 3
-z <- 2
-## NOTE que também poderia fazer
-x <- 5; y <- 3; z <- 2
 
 ## Divida x por y
-x/y
 
 ## Calcule z vezes y
-z * y
 
 ## Calcule 2 vezes y, salvando o resultado em uma nova variável chamada
 ## 'w'
-w <- 2 * y
-2 * y -> w
-w
 
 ## Calcule x vezes w
-x * w
 
 ## Convertendo escalas de temperatura.
 ## Considere que você quer converter a temperatura de 25°C (graus
 ## Celsius - C) para as escalas Kelvin (K) e Fahrenheit (F).
 
 ## Crie uma variável para armazenar o valor da temperatura em Celsius (25)
-temp_c <- 25
-## NOTE sobre nomes de variáveis:
-## - Não podem começar com número
-## - Não podem conter espaço
-## - "Sensível ao caso"
-## - Podem ser separadas por ponto, underline, ou snakeCase ou CamelCase
 
 ## Crie uma nova variável para armazenar o resultado da conversão da
 ## temperatura em Celsius para Kelvin através da seguinte relação:
 ## K = C + 273.15
-temp_k <- temp_c + 273.15
-(temp_k <- temp_c + 273.15)
 
 ## Crie uma nova variável para armazenar o resultado da conversão da
 ## temperatura em Celsius para Fahrenheit através da seguinte relação:
 ## F = (C * 9/5) + 32
-(temp_f <- temp_c * 9/5 + 32)
-## NOTE sobre ordem de operações
-(temp_f <- (temp_c * 9/5) + 32)
+
 
 ## Agora faça o caminho inverso: converta a temperatura calculada em
 ## Kelvin para Celsius com
 ## C = K - 273.15
-(temp_c <- temp_k - 273.15)
 
 ## Converta a temperatura em Fahrenheit para Celsius com
 ## C = (F - 32) * 5/9
-(temp_c <- temp_f - 32 * 5/9)
-## NOTE sobre ordem de operações
-(temp_c <- (temp_f - 32) * 5/9)
-## Abrindo a conta
-77 - 32 * 5/9 # errado
-32 * 5/9 # esse é o primeiro passo
-77 - 17.77778 # o resultado do primeiro passo é usado aqui, causando o
-              # erro
-(77 - 32) * 5/9 # certo - parenteses primeiro
-
-## NOTE sobre "sobreposição" de resultados no mesmo objeto (apesar do
-## resultado ser o mesmo, temp_c é sobrescrito)
 
 ## Encontre as raízes da equação x^2 - 5x + 6
 ## Veja https://pt.wikipedia.org/wiki/Equação_quadrática
-a <- 1; b <- -5; c <- 6
-## Fórmula de Bhaskara
-(-b - sqrt(b^2 - 4 * a * c))/(2 * a)
-(-b + sqrt(b^2 - 4 * a * c))/(2 * a)
 
 ##----------------------------------------------------------------------
 ## FIM Script pré aula
