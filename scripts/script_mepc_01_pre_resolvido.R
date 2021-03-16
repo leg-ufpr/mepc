@@ -1,8 +1,8 @@
 #########################################################################
 ##
 ## Disciplina Transversal
-## MEPC-2020
-## Aula 1   20/05/2020
+## MEPC
+## Aula 1
 ##
 ## Profs Fernando Mayer e Paulo Justiniano
 ##
@@ -130,6 +130,7 @@ a <- 1; b <- -5; c <- 6
 ## Fórmula de Bhaskara
 (-b - sqrt(b^2 - 4 * a * c))/(2 * a)
 (-b + sqrt(b^2 - 4 * a * c))/(2 * a)
+
 ## Visualização
 curve(x^2 - 5 * x + 6, from = 0, to = 5)
 abline(h = 0, lty = 2)
@@ -142,6 +143,7 @@ points(3, 0, pch = 19, col = 2)
 uniroot(function(x) x^2 - 5 * x + 6, interval = c(0, 5))
 uniroot(function(x) x^2 - 5 * x + 6, interval = c(0, 2.5))$root
 uniroot(function(x) x^2 - 5 * x + 6, interval = c(2.5, 5))$root
+## install.packages("rootSolve")
 rootSolve::uniroot.all(function(x) x^2 - 5 * x + 6, interval = c(0, 5))
 
 ##----------------------------------------------------------------------

@@ -1,8 +1,8 @@
 #########################################################################
 ##
 ## Disciplina Transversal
-## MEPC-2020
-## Aula 1   20/05/2020
+## MEPC
+## Aula 2
 ##
 ## Profs Fernando Mayer e Paulo Justiniano
 ##
@@ -39,6 +39,9 @@ vet <- c(5, 3, 2)
 vet
 length(vet)
 
+## temp_c <- 25
+## temp_k <- 298.15
+## temp_f <- 77
 ## Vetor a partir de objetos existentes
 temps <- c(temp_c, temp_k, temp_f)
 temps
@@ -236,8 +239,8 @@ lis$matriz[1, 2]
 ## Data frame
 ## - É uma lista onde os componentes devem ter o mesmo tamanho
 ## - Formato de "tabela" de dados
-da <- data.frame("Escala" = c("Celsius", "Kelvin", "Fahrenheit"),
-                 "Temperatura" = c(temp_c, temp_k, temp_f))
+da <- data.frame(Escala = c("Celsius", "Kelvin", "Fahrenheit"),
+                 Temperatura = c(temp_c, temp_k, temp_f))
 da
 length(da) # número de colunas = elementos da lista
 dim(da) # também possui duas dimensões
@@ -381,7 +384,7 @@ plot(sol, type = "o", xlab = "Mês", ylab = "Horas de sol",
 
 ## Qual o percentual de sol em cada mês???
 ## Fazendo uma conta rápida: considere que um mês contém em média 30
-## dias, e que cada dia possui, em média, 10 horas de duração, então:
+## dias, e que cada dia possui, em média, 10 horas de luz solar, então:
 ## 30 dias * 10 horas = 300 horas
 (horas_mes <- 30 * 10)
 ## Percentual de sol

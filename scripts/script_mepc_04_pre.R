@@ -1,8 +1,8 @@
 #########################################################################
 ##
 ## Disciplina Transversal
-## MEPC-2020
-## Aula 4   10/06/2020
+## MEPC
+## Aula 4
 ##
 ## Profs Fernando Mayer e Paulo Justiniano
 ##
@@ -20,6 +20,7 @@ sol <- c(160.5, 151.3, 163.1, 155.5, 148.8, 141.3, 162.1,
 ## Para simplificar, faça algumas suposições:
 ## 1. Considere que um mês contém em média 30 dias
 ## 2. Considere que cada dia possui, em média, 10 horas de duração
+
 ## Com isso:
 ## 1. Calcule a quantidade média de horas em um mês
 ## 2. Divida as horas de sol mensal pela quantidade de horas mensal,

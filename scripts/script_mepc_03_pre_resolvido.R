@@ -1,8 +1,8 @@
 #########################################################################
 ##
 ## Disciplina Transversal
-## MEPC-2020
-## Aula 3   03/06/2020
+## MEPC
+## Aula 3
 ##
 ## Profs Fernando Mayer e Paulo Justiniano
 ##
