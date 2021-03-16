@@ -1,0 +1,41 @@
+---
+title: "Análise de dados do Gapminder"
+author: "Fernando Mayer"
+date: "01 de julho de 2020"
+output: html_document
+---
+
+# Importação e estrutura dos dados
+
+Vamos importar os dados com
+
+```{r}
+dados <- read.csv("pib_gapminder.csv")
+str(dados)
+```
+
+Um sumário estatístico pode ser visto abaixo
+
+```{r}
+summary(dados)
+```
+
+# Indicadores para o Brasil
+
+Resumo dos dados para o Brasil:
+
+```{r}
+summary(dados[dados$pais == "Brazil", ])
+```
+
+Vamos ver a expectativa de vida do Brasil ao longo do tempo
+
+```{r}
+plot(expVida ~ ano, data = dados, subset = pais == "Brazil")
+```
+
+Com isso, vemos que a expectativa de vida média do Brasil, nesse período,
+foi de `r mean(dados$expVida[dados$pais == "Brazil"])` anos.
+
+
+

@@ -1,0 +1,65 @@
+---
+title: "Análise de dados do Gapminder"
+author: "Fernando Mayer"
+date: "01 de julho de 2020"
+csl: abntex2.csl
+bibliography: ref.bib
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Importação e estrutura dos dados
+
+Vamos importar os dados com 
+
+```{r, echo=TRUE}
+dados <- read.csv("pib_gapminder.csv")
+str(dados)
+```
+
+Um sumário estatístico pode ser visto abaixo
+
+```{r}
+knitr::kable(summary(dados))
+```
+
+Segundo @Mood1974 isso é muito bom. Mas existem outras opiniões [@Casella-Berger2011].
+
+# Indicadores para o Brasil
+
+Resumo dos dados para o Brasil:
+
+```{r}
+knitr::kable(summary(dados[dados$pais == "Brazil", ]))
+```
+
+Vamos ver a expectativa de vida do Brasil ao longo do tempo
+
+```{r}
+plot(expVida ~ ano, data = dados, subset = pais == "Brazil")
+```
+
+A média é calculada como
+
+$$
+\bar{X} = \frac{\sum_{i=1}^{n} X_i}{n}
+$$
+
+Com isso, vemos que a expectativa de vida média do Brasil, nesse período,
+foi de $\bar{x}=$ `r mean(dados$expVida[dados$pais == "Brazil"])` anos.
+
+# Referências
+
+
+
+
+
+
+
