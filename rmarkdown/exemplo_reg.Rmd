@@ -2,9 +2,8 @@
 title: "Regressão linear simples: um exemplo"
 author: "Fernando Mayer"
 date: "Novembro, 2017"
-output: 
+output:
   html_document: default
-  ioslides
 ---
 
 ```{r, echo=FALSE}
